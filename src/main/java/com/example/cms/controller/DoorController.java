@@ -126,7 +126,7 @@ public class DoorController {
             List<String> personInfos = new ArrayList<>();
             Map<String, Object> map = new HashMap<>();
             for (PersonBean person : persons) {
-                String info = person.getPhoneNum() + "," + person.getName() + "," + person.getCommunityPassword() + ",[" + person.getFaceFeature() + "]";
+                String info = person.getPhoneNum() + "," + person.getName() + "," + person.getCommunityPassword() + "," + person.getCardID() + ",[" + person.getFaceFeature() + "]";
                 personInfos.add(info);
             }
             map.put("personInfos", personInfos);

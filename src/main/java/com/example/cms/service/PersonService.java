@@ -10,9 +10,9 @@ public interface PersonService {
 
     List<PersonBean> selectPerson(String phoneNum);     //根据手机号获取人员
 
-    List<PersonBean> getPersonByAddressAndTime(String community, String gate, String lastUpdateTime);     //根据楼门和上次跟新时间获取人员
+    List<PersonBean> getPersonByAddressAndTime(String community, String gate, String lastUpdateTime);     //根据楼门和上次更新时间获取人员
 
-    List<PersonBean> getPersonByCommunityAndTime(String community, String lastUpdateTime);     //根据小区和上次跟新时间获取人员
+    List<PersonBean> getPersonByCommunityAndTime(String community, String lastUpdateTime);     //根据小区和上次更新时间获取人员
 
     void addPerson(String name, String phoneNum, String loginPassword);
 

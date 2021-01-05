@@ -1,8 +1,5 @@
 package com.example.cms.bean;
 
-import java.sql.Date;
-import java.sql.Time;
-
 // 考勤记录实体，每个bean对应一条考勤记录
 public class AttendanceBean {
     public int person_id;

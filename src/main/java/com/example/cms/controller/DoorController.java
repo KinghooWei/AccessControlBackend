@@ -1,6 +1,8 @@
 package com.example.cms.controller;
 
+import com.example.cms.bean.AttendanceByCardBean;
 import com.example.cms.bean.PersonBean;
+import com.example.cms.service.AttendanceByCardService;
 import com.example.cms.service.AttendanceService;
 import com.example.cms.service.PersonService;
 import com.example.cms.service.UnknownService;
@@ -34,6 +36,8 @@ public class DoorController {
     PersonService personService;
     @Autowired
     UnknownService unknownService;
+    @Autowired
+    AttendanceByCardService attendanceByCardService;
 
     // -- 通用的json API的接口 -- s//
     @RequestMapping(value = "/api", method = RequestMethod.POST)
@@ -46,6 +50,9 @@ public class DoorController {
             switch (service) {
                 case "door.attendance.enter":
                     response = responseDoorAttendanceEnter(jsonObject); //添加用户出入信息
+                    break;
+                case "door.attendance.enterByCard":
+                    response = responseDoorAttendanceEnterByCard(jsonObject); //刷卡，截取人脸
                     break;
                 case "door.person.getAll":
                     response = responseDoorPersonGetAll(jsonObject);    //加载用户信息至门禁机
@@ -64,6 +71,33 @@ public class DoorController {
             return "{\"resultCode\": 0, \"message\":\"unknown error\"}";
         }
 
+    }
+
+    /**
+     * 刷卡，截取人脸
+     */
+    private String responseDoorAttendanceEnterByCard(JSONObject jsonObject) {
+        JSONObject responseJson = new JSONObject();
+        try {
+            String name = jsonObject.getString("name");
+            String phoneNum = jsonObject.getString("phoneNum");
+            String faceBase64 = jsonObject.getString("faceBase64");
+            byte[] face = Utils.base64ToBytes(faceBase64);
+            String community = jsonObject.getString("community");
+            String building = jsonObject.getString("building");
+//            String method = jsonObject.getString("method");
+            String longitude = jsonObject.getString("longitude");
+            String latitude = jsonObject.getString("latitude");
+//            String enterTimeConvert = enterTime.substring(0, 4) + "-" + enterTime.substring(4, 6) + "-" + enterTime.substring(6, 8) + " " + enterTime.substring(8, 10) + ":" + enterTime.substring(10, 12);
+            AttendanceByCardBean attendanceByCardBean = new AttendanceByCardBean(name, phoneNum, community, building, longitude, latitude, faceBase64);
+            attendanceByCardService.insertAccessRecord(attendanceByCardBean);
+//            responseJson.put("timestamp", Utils.getSecondTimestamp());
+            responseJson.put("message", "success to add enter message");
+            responseJson.put("resultCode", -1);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return responseJson.toString();
     }
 
     /**

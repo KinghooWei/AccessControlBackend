@@ -15,5 +15,6 @@ public interface AttendanceMapper {
     byte[] selectFaceByEnterTime(@Param("enterTime") String enterTime);
 
     List<AttendanceBean> selectAttendanceByEnterTime(@Param("enterTime") String enterTime);
+
     List<AttendanceBean> selectAttendanceByName(@Param("name") String name);
 }

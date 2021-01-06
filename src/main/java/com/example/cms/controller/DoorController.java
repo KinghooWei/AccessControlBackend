@@ -85,13 +85,9 @@ public class DoorController {
             byte[] face = Utils.base64ToBytes(faceBase64);
             String community = jsonObject.getString("community");
             String building = jsonObject.getString("building");
-//            String method = jsonObject.getString("method");
             String longitude = jsonObject.getString("longitude");
             String latitude = jsonObject.getString("latitude");
-//            String enterTimeConvert = enterTime.substring(0, 4) + "-" + enterTime.substring(4, 6) + "-" + enterTime.substring(6, 8) + " " + enterTime.substring(8, 10) + ":" + enterTime.substring(10, 12);
-            AttendanceByCardBean attendanceByCardBean = new AttendanceByCardBean(name, phoneNum, community, building, longitude, latitude, faceBase64);
-            attendanceByCardService.insertAccessRecord(attendanceByCardBean);
-//            responseJson.put("timestamp", Utils.getSecondTimestamp());
+            attendanceByCardService.insertAccessRecord(name, phoneNum, community, building, longitude, latitude, faceBase64);
             responseJson.put("message", "success to add enter message");
             responseJson.put("resultCode", -1);
         } catch (JSONException ex) {

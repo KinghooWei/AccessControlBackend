@@ -16,7 +16,7 @@ public class AttendanceByCardServiceImpl implements AttendanceByCardService {
     AttendanceByCardMapper attendanceByCardMapper;
 
     @Override
-    public int insertAccessRecord(AttendanceByCardBean attendanceByCardBean) {
-        return attendanceByCardMapper.insertAccessRecord(attendanceByCardBean);
+    public int insertAccessRecord(String name, String phoneNum, String community, String building, String longitude, String latitude, String faceBase64) {
+        return attendanceByCardMapper.insertAccessRecord(name, phoneNum, community, building, longitude, latitude, faceBase64);
     }
 }

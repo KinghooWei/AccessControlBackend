@@ -1,6 +1,7 @@
 package com.example.cms.mapper;
 
 import com.example.cms.bean.Account;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -51,15 +51,16 @@ public class DoorController {
                 case "door.attendance.enter":
                     response = responseDoorAttendanceEnter(jsonObject); //添加用户出入信息
                     break;
-                case "door.attendance.enterByCard":
-                    response = responseDoorAttendanceEnterByCard(jsonObject); //刷卡，截取人脸
-                    break;
                 case "door.person.getAll":
                     response = responseDoorPersonGetAll(jsonObject);    //加载用户信息至门禁机
                     break;
                 case "door.attendance.QRCode":
                     response = responseDoorAttendanceQRCode(jsonObject);    //验证二维码
                     break;
+                case "door.attendance.enterByCard":
+                    response = responseDoorAttendanceEnterByCard(jsonObject); //刷卡，截取人脸
+                    break;
+
                 default:
 //                    System.out.println("未处理的服务请求："+service);
                     response = "{\"resultCode\": -2, \"message\":\"unknown service\"}";
@@ -72,6 +73,8 @@ public class DoorController {
         }
 
     }
+
+
 
     /**
      * 刷卡，截取人脸
@@ -180,7 +183,7 @@ public class DoorController {
             String phoneNum = jsonObject.getString("phoneNum");
             String faceBase64 = jsonObject.getString("faceBase64");
             double key = jsonObject.getDouble("key");
-            System.out.println(""+key);
+            System.out.println("" + key);
             byte[] face = Utils.base64ToBytes(faceBase64);
             String community = jsonObject.getString("community");
             String building = jsonObject.getString("building");

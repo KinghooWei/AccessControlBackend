@@ -5,4 +5,10 @@
         INSERT ignore INTO attendance_card (phoneNum, name, face, community, building, longitude, latitude)
         VALUES (#{phoneNum}, #{name},#{face},#{community},#{building},#{longitude},#{latitude})
     </insert>
+
+    <select id="queryRecordsRecent" resultType="AttendanceByCardBean">
+        SELECT enterTime, community, building, face FROM attendance_card
+        WHERE DATE_SUB(CURDATE(), INTERVAL 30 DAY) <![CDATA[<=]]> enterTime and phoneNum = #{phoneNum}
+        order by enterTime desc
+    </select>
 </mapper>

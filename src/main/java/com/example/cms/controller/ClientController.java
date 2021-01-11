@@ -1,30 +1,32 @@
 package com.example.cms.controller;
 
+import com.example.cms.bean.AttendanceByCardBean;
 import com.example.cms.bean.PersonBean;
+import com.example.cms.service.AttendanceByCardService;
 import com.example.cms.service.PersonService;
 import com.example.cms.utils.FaceReg;
 import com.example.cms.utils.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 //import sun.misc.BASE64Decoder;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.util.Base64;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/client")
 public class ClientController {
     @Autowired
     PersonService personService;
+
+    @Autowired
+    private AttendanceByCardService attendanceByCardService;
 
     // -- 通用的json API的接口 -- s//
 
@@ -70,6 +72,9 @@ public class ClientController {
                     break;
                 case "client.person.destroyQRCode":
                     response = responseClientQRCodeDestroy(jsonObject);
+                    break;
+                case "door.attendance.getRecordList":
+                    response = responseDoorAttendanceGetRecordList(jsonObject); //获取门禁记录
                     break;
                 default:
 //                    System.out.println("未处理的服务请求："+service);
@@ -499,6 +504,32 @@ public class ClientController {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+        return responseJson.toString();
+    }
+
+    /**
+     * 获取门禁记录
+     */
+    @ResponseBody
+    private String responseDoorAttendanceGetRecordList(JSONObject jsonObject) {
+        JSONObject responseJson = new JSONObject();
+        Map<String, Object> map = new HashMap<>();
+        try {
+            String phoneNum = jsonObject.getString("phoneNum");
+            List<AttendanceByCardBean> recordList = attendanceByCardService.getRecordList(phoneNum);
+            List<String> recordInfos = new ArrayList<>();
+            for (AttendanceByCardBean record : recordList) {
+                SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss" );
+                String info = sdf.format(record.getEnterTime()) + ',' + record.getCommunity() + ',' + record.getBuilding() + ',' + record.getFace();
+                recordInfos.add(info);
+            }
+            map.put("recordInfos", recordInfos);
+            map.put("resultCode", -1);
+            responseJson = new JSONObject(map);
+        } catch (JSONException ex) {
+            map.put("resultCode", 0);
+            responseJson = new JSONObject(map);
         }
         return responseJson.toString();
     }

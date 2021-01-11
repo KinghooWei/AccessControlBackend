@@ -1,10 +1,9 @@
 package com.example.cms.bean;
 
-import java.util.Arrays;
 import java.util.Date;
 
 /**
- * Create by Jinhu Wei on 2021/1/5
+ * Create by Jinhu Wei on 2021/1/7
  */
 public class AttendanceByCardBean {
     private int id;
@@ -16,6 +15,13 @@ public class AttendanceByCardBean {
     private String longitude;
     private String latitude;
     private String face;
+
+    public AttendanceByCardBean(Date enterTime, String community, String building, String face) {
+        this.enterTime = enterTime;
+        this.community = community;
+        this.building = building;
+        this.face = face;
+    }
 
     public AttendanceByCardBean(String name, String phoneNum, String community, String building, String longitude, String latitude, String face) {
         this.name = name;
